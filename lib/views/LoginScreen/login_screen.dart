@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone/utill/colors.dart';
-import 'package:instagram_clone/utill/strings.dart';
+import 'package:instagram_clone/utill/exports.dart';
 import 'package:instagram_clone/widgets/text_field.dart';
 
 class LoginScreen extends StatefulWidget {
