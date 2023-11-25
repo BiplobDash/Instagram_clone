@@ -1,10 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
+import 'package:instagram_clone/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone/responsive/responsive_layout_screen.dart';
+import 'package:instagram_clone/responsive/web_screen_layout.dart';
 import 'package:instagram_clone/utill/exports.dart';
+import 'package:instagram_clone/views/LoginScreen/login_screen.dart';
 import 'package:instagram_clone/widgets/text_field.dart';
 
 class SingUpScreen extends StatefulWidget {
@@ -49,13 +55,22 @@ class _SingUpScreenState extends State<SingUpScreen> {
       bio: _usernameController.text,
       file: _image!,
     );
-    if (res != 'success') {
-      // ignore: use_build_context_synchronously
-      showSnackbar(res, context);
-    }
     setState(() {
       _isLoading = false;
     });
+    if (res != 'success') {
+      showSnackbar(res, context);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => const ResponsiveLayoutScreen(
+                webScreenLayout: WebScreenLayout(),
+                mobileScreenLayout: MobileScreenLayout(),
+              )));
+    }
+  }
+
+  void navigatorToSignUp() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => const LoginScreen()));
   }
 
   @override
@@ -151,7 +166,13 @@ class _SingUpScreenState extends State<SingUpScreen> {
                       ),
                       color: blueColor,
                     ),
-                    child: _isLoading ? const Center(child: CircularProgressIndicator(color: primaryColor,),) : const Text(signUp),
+                    child: _isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          )
+                        : const Text(signUp),
                   ),
                 ),
                 const SizedBox(
@@ -169,11 +190,11 @@ class _SingUpScreenState extends State<SingUpScreen> {
                       child: const Text("Don't have an account?"),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: navigatorToSignUp,
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: const Text(
-                          signUp,
+                          logIn,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
